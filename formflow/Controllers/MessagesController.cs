@@ -29,6 +29,7 @@ namespace formflow
                                                                                                    //uma unidade de trabalho que devera ser executada, ao passar uma task em
                                                                                                    //um await, voce passa a executar esta tarefa em uma thread separada. | await é o gerenciador de thread que recebe como parametro uma task
         {
+            
             string sim = string.Empty;
             string nao = string.Empty;
             var intent = new Intent();

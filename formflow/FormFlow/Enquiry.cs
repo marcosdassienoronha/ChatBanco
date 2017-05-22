@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.FormFlow;
+﻿using formflow.Model;
+using Microsoft.Bot.Builder.FormFlow;
 using System;
 
 
@@ -11,17 +12,19 @@ namespace formflow.FormFlow
     [Serializable]
     public class Enquiry
     {
-
+       
 
             //[Prompt("Qual é o seu nome?")]
             // public string Name { get; set; }
             [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
             public YesOrNoOptions Conta { get; set; }
-            [Prompt("Como você se chama? {||}")]
-            public bool Nome { get; set; }
-        [Prompt("Voce está de acordo com o combinado na negociação? {||}")]
-            public bool AcordoNegociacao { get; set; }
+            [Prompt("Como você se chama? ")]
+            public string Nome { get; set; }
+            [Prompt("Por favor, forneça seu Cpf? ")]
+            public string Cpf { get; set; }
+            [Prompt("Voce está de acordo com o combinado na negociação? {||}")]
+            public YesOrNoOptions AcordoNegociacao { get; set; }
             
 
 
