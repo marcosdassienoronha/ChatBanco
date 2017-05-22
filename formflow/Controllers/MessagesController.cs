@@ -68,8 +68,24 @@ namespace formflow
 
                 }
 
+                /*
+                if (!string.IsNullOrEmpty(sim))
+                {
+                    var reply = activity.CreateReply($"Obrigado! Foi um prazer negociar com você. ");
+                    await connector.Conversations.ReplyToActivityAsync(reply);
+                }
+                else if (!string.IsNullOrEmpty(nao))
+                {
+                    var reply = activity.CreateReply($"desconsidere entao");
+                    await connector.Conversations.ReplyToActivityAsync(reply);
+                }
+                else
+                {
+                    var reply = activity.CreateReply($"n entendi");
+                    await connector.Conversations.ReplyToActivityAsync(reply);
+                }
 
-               
+                */
             }
 
 

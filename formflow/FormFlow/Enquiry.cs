@@ -13,13 +13,17 @@ namespace formflow.FormFlow
     {
 
 
-        //[Prompt("Qual é o seu nome?")]
-        // public string Name { get; set; }
-        [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
+            //[Prompt("Qual é o seu nome?")]
+            // public string Name { get; set; }
+            [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
-        public YesOrNoOptions Fala1 { get; set; }
+            public YesOrNoOptions Conta { get; set; }
+            [Prompt("Como você se chama? {||}")]
+            public bool Nome { get; set; }
         [Prompt("Voce está de acordo com o combinado na negociação? {||}")]
-         public bool Fala2 { get; set; }
+            public bool AcordoNegociacao { get; set; }
+            
+
 
 
         public Service ServiceRequired { get; set; }

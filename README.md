@@ -1,22 +1,7 @@
-# Repositório para Projeto ChatBot - Equipe 2 
 
+# intro-to-botframework-6-formflow
 
+##Introduction
 
-### Objetivo
-Repositório para Projeto ChatBot Banco.
+Accompanying code for YouTube video https://www.youtube.com/watch?v=8MdIk5ttrN0
 
-### Direitos
-
-Este projeto pertence a [1500fh](http://www.1500fh.com/). 
-
-### Equipe
-Composta por:
-
-* Carlos Eduardo
-* Gabriel Pontes
-* Josimar
-* Marcos Dassie
-
-## *IMPORTANTE*
-*Esta permitido **apenas acrescentar** códigos aos arquivos presente neste projeto **apenas pela equipe** citada anteriormente.
-**Não altere ou apague** os códigos já existentes, se for fazer isto, avise e confirme com a equipe.*
