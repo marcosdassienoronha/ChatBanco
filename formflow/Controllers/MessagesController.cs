@@ -35,8 +35,8 @@ namespace formflow
 
             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-            if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
-            {
+           // if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
+           // {
                 Modulo.contador += 1; 
                 if (Modulo.contador == 2 && activity.Text.Equals("2"))
                 {
@@ -55,7 +55,7 @@ namespace formflow
                 await Conversation.SendAsync(activity, () => {
                     return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
                 });
-            }
+           // }
             var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
             return responseHttp;
         }

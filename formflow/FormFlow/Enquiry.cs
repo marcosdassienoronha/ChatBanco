@@ -48,6 +48,7 @@ namespace formflow.FormFlow
                 .Confirm("Resumo da negociação: Nome: {Nome} \n CPF: {Cpf} \n Aceite da Negociação: {AcordoNegociacao}", state => !Modulo.aceite)
                 .Build();
 
+            Modulo.contador = 1;
         }
 
         public static IFormDialog<Enquiry> BuildFormDialog(FormOptions options = FormOptions.PromptInStart)
