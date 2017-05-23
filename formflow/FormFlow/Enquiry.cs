@@ -39,13 +39,13 @@ namespace formflow.FormFlow
             // Builds an IForm<T> based on BasicForm
 
             return builder
-                .Field("Conta", state => !Pessoa.aceite)
-                .Message("Obrigado, desconsidere o contato.", state => Pessoa.aceite)
-                .Field("Nome", state => !Pessoa.aceite)
-                .Field("Cpf", state => !Pessoa.aceite)
-                .Field("AcordoNegociacao", state => !Pessoa.aceite)
+                .Field("Conta", state => !Modulo.aceite)
+                .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
+                .Field("Nome", state => !Modulo.aceite)
+                .Field("Cpf", state => !Modulo.aceite)
+                .Field("AcordoNegociacao", state => !Modulo.aceite)
                 .AddRemainingFields()
-                .Confirm("Resumo da negociação: Nome: {Nome} \n CPF: {Cpf} \n Aceite da Negociação: {AcordoNegociacao}", state => !Pessoa.aceite)
+                .Confirm("Resumo da negociação: Nome: {Nome} \n CPF: {Cpf} \n Aceite da Negociação: {AcordoNegociacao}", state => !Modulo.aceite)
                 .Build();
 
         }

@@ -5,22 +5,16 @@ using System.Web;
 
 namespace formflow.Model
 {
-     public class  Pessoa
+     public class  Modulo
     {
         public static int contador = 0;
         public static bool aceite;
-        public Pessoa()
+
+
+        public Modulo()
         {
 
         }
-
-        public String Nome { get; set; }
-        public String CPF { get; set; }
-        public String Conta{get; set;}
-        
-
-       
-
 
     }
 }
