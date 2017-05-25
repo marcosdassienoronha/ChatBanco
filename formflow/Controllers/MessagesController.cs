@@ -24,6 +24,7 @@ namespace formflow
     //[BotAuthentication]
     public class MessagesController : ApiController
     {
+
         [ResponseType(typeof(void))]
 
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
@@ -47,37 +48,71 @@ namespace formflow
 
 
             //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
-            var reply = activity.CreateReply($""+cliente.Nome+cliente.CPF+cliente.Fax);
-            await connector.Conversations.ReplyToActivityAsync(reply);
+            //var reply = activity.CreateReply($""+cliente.Nome+cliente.CPF+cliente.Fax);
+            //await connector.Conversations.ReplyToActivityAsync(reply);
             //-----------------------------------------------------------------------------------------------------------
-           
+            //var reply = activity.CreateReply($"Contador: " + Modulo.contador);
+            //await connector.Conversations.ReplyToActivityAsync(reply);
 
+            //var reply5 = activity.CreateReply($"Activity Text: " + activity.Text);
+            //await connector.Conversations.ReplyToActivityAsync(reply5);
 
-           
-            Modulo.contador += 1; 
-                if (Modulo.contador == 2 && activity.Text.Equals("2"))
+            //var reply6 = activity.CreateReply($"CPF: " + cliente.CPF);
+            //await connector.Conversations.ReplyToActivityAsync(reply6);
+
+            if (!activity.Text.Equals(""))
+            {
+                if (Modulo.contador == 1 && activity.Text.Equals("2"))
                 {
+                    //var reply2 = activity.CreateReply($"NAO E A CONTA DA PESSOA | contador = " + Modulo.contador);
+                    //await connector.Conversations.ReplyToActivityAsync(reply2);
                     Modulo.aceite = true;
-                    Modulo.contador = 1; 
+
+
                 }
 
-                else if (Modulo.contador == 5 && activity.Text.Equals("1"))
+
+                if (Modulo.contador == 4 && activity.Text.Equals("1"))
                 {
-                    //if(activity.Text == cliente.Nome) 
+
+                    var reply3 = activity.CreateReply($"Contador: " + Modulo.contador);
+                    await connector.Conversations.ReplyToActivityAsync(reply3);
+
+                    if (activity.Text == cliente.Nome)
                         //Cliente nao errou o nome
-                    Modulo.aceite = false;
+                        Modulo.aceite = false;
+
+
                 }
-                else if (Modulo.contador == 5 && activity.Text.Equals("2"))
+                if (Modulo.contador == 4 && activity.Text.Equals("2"))
                 {
+                    //var reply4 = activity.CreateReply($"Contador: " + Modulo.contador);
+                    //await connector.Conversations.ReplyToActivityAsync(reply4);
                     Modulo.aceite = true;
+
+
                 }
 
+                else if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
+                {
+                    //var reply23 = activity.CreateReply($"activity text = " + activity.Text);
+                    //await connector.Conversations.ReplyToActivityAsync(reply23);
+                    //var reply2 = activity.CreateReply($"cliente.cpf  = " + cliente.CPF);
+                    //await connector.Conversations.ReplyToActivityAsync(reply2);
+                    Modulo.aceite = true;
+
+
+                }
+                Modulo.contador += 1;
+            }
             await Conversation.SendAsync(activity, () => {
                     return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
             });
          
             var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
+         
             return responseHttp;
+
         }
     }
 }
