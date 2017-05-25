@@ -21,25 +21,7 @@ namespace formflow.Model
         //        dr.Read();
 
 
-        //    }
-
-
-
-        //classe cliente e suas propriedades 
-        public class Cliente
-        {
-            public int IdCliente { get; set; }
-            public string Nome { get; set; }
-            public string CodigoPostal { get; set; }
-            public string CodigoEstado { get; set; }
-            public string Endereco { get; set; }
-            public string DDDTelefone { get; set; }
-            public string Telefone { get; set; }
-            public string DDDFax { get; set; }
-            public string Fax { get; set; }
-            public string CPF { get; set; }
-            public string Status { get; set; }
-        }       
+        //    } 
 
 
         //método que faz a consulta no bd e obtém o cliente 
@@ -86,7 +68,7 @@ namespace formflow.Model
                 cliente.Status = leitor["status"].ToString();
             }
 
-            //fecha conexão 
+            //fecha conexão
             conn.Close();
 
             //Retorno o objeto cliente cujo o  

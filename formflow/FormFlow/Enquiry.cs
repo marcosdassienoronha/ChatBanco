@@ -20,9 +20,9 @@ namespace formflow.FormFlow
     public class Enquiry
     {
 
-        
-        
-        
+        Conexao.Cliente cliente = Conexao.ObterClientePorNome("Renato");
+
+
 
         [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
@@ -40,6 +40,8 @@ namespace formflow.FormFlow
 
         public static IForm<Enquiry> BuildForm()
         {
+
+
 
             var builder = new FormBuilder<Enquiry>();
             builder.Configuration.DefaultPrompt.ChoiceStyle = ChoiceStyleOptions.Auto;
