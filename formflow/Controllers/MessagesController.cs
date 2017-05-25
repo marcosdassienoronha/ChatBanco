@@ -36,10 +36,23 @@ namespace formflow
 
             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
+            Cliente cliente = new Cliente();
 
 
-            // if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
-            // {
+
+
+
+            cliente = Conexao.ObterClientePorNome("Renato");
+
+
+            //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
+            var reply = activity.CreateReply($""+cliente.Nome+cliente.CPF+cliente.Fax);
+            await connector.Conversations.ReplyToActivityAsync(reply);
+            //-----------------------------------------------------------------------------------------------------------
+           
+
+
+           
             Modulo.contador += 1; 
                 if (Modulo.contador == 2 && activity.Text.Equals("2"))
                 {
@@ -49,16 +62,19 @@ namespace formflow
 
                 else if (Modulo.contador == 5 && activity.Text.Equals("1"))
                 {
+                    //if(activity.Text == cliente.Nome) 
+                        //Cliente nao errou o nome
                     Modulo.aceite = false;
                 }
                 else if (Modulo.contador == 5 && activity.Text.Equals("2"))
                 {
                     Modulo.aceite = true;
                 }
-                await Conversation.SendAsync(activity, () => {
+
+            await Conversation.SendAsync(activity, () => {
                     return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
-                });
-           // }
+            });
+         
             var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
             return responseHttp;
         }

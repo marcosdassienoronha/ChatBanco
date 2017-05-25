@@ -20,11 +20,11 @@ namespace formflow.FormFlow
     public class Enquiry
     {
 
-        Conexao.Cliente cliente = Conexao.ObterClientePorNome("Renato");
+         
 
 
 
-        [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
+            [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
             public  YesOrNoOptionsConta Conta { get; set; }
             [Prompt("Como você se chama? ")]
