@@ -37,12 +37,13 @@ namespace formflow
             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
             Cliente cliente = new Cliente();
+            Conexao conexao = new Conexao();
 
 
 
 
 
-            cliente = Conexao.ObterClientePorNome("Renato");
+            cliente = conexao.ObterClientePorNome("Renato");
 
 
             //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS

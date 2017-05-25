@@ -10,6 +10,18 @@ namespace formflow.Model
 {
     public class Conexao
     {
+
+        //objeto cliente que será retornado pelo método 
+        private Cliente cliente;
+
+        //instância da conexão
+        private SqlConnection conn;
+        public Conexao(){
+            cliente = new Cliente();
+            conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
+
+        }
+
         //public string Nome { get; set; }
 
         //public string conecta(){
@@ -26,14 +38,9 @@ namespace formflow.Model
 
         //método que faz a consulta no bd e obtém o cliente 
         //cujo o nome é informado pelo parâmetro 
-        public static Cliente ObterClientePorNome(string nome)
+        public Cliente ObterClientePorNome(string nome)
         {
-            //objeto cliente que será retornado pelo método 
-            Cliente cliente = new Cliente();
-
-            //instância da conexão 
-            SqlConnection conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
-
+            
             //string com o comando a ser executado 
             string sql = "SELECT * from bot.cliente WHERE nome_cliente=@Nome";
 
