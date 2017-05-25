@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 using System;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -35,9 +36,11 @@ namespace formflow
 
             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-           // if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
-           // {
-                Modulo.contador += 1; 
+
+
+            // if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
+            // {
+            Modulo.contador += 1; 
                 if (Modulo.contador == 2 && activity.Text.Equals("2"))
                 {
                     Modulo.aceite = true;
