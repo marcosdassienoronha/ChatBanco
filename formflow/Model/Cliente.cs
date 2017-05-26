@@ -9,6 +9,7 @@ namespace formflow.Model
     {
         public int IdCliente { get; set; }
         public string Nome { get; set; }
+        public string Conta { get; set; }
         public string CodigoPostal { get; set; }
         public string CodigoEstado { get; set; }
         public string Endereco { get; set; }
