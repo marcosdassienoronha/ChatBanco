@@ -43,9 +43,9 @@ namespace formflow
             //cliente = conexao.ObterClientePorStatus("Inadimplente");
             cliente.oferta = conexao.ObterOferta(cliente.IdCliente);
 
-            //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
-            var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
-            await connector.Conversations.ReplyToActivityAsync(reply);
+            ////CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
+            //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
+            //await connector.Conversations.ReplyToActivityAsync(reply);
             //-----------------------------------------------------------------------------------------------------------
             //var reply = activity.CreateReply($"Contador: " + Modulo.contador);
             //await connector.Conversations.ReplyToActivityAsync(reply);
@@ -55,28 +55,25 @@ namespace formflow
 
             //var reply6 = activity.CreateReply($"CPF: " + cliente.CPF);
             //await connector.Conversations.ReplyToActivityAsync(reply6);
-
-            if (!activity.Text.Equals(""))
-            {
+            
                 if (Modulo.contador == 1 && activity.Text.Equals("2"))
                 {
                     //var reply2 = activity.CreateReply($"NAO E A CONTA DA PESSOA | contador = " + Modulo.contador);
                     //await connector.Conversations.ReplyToActivityAsync(reply2);
                     Modulo.aceite = true;
+                    Modulo.contador += 1;
 
 
                 }
 
-
-                if (Modulo.contador == 4 && activity.Text.Equals("1"))
+                if (Modulo.contador == 2)
                 {
 
-                    var reply3 = activity.CreateReply($"Contador: " + Modulo.contador);
-                    await connector.Conversations.ReplyToActivityAsync(reply3);
+                //var reply3 = activity.CreateReply($"Contador: " + Modulo.contador + cliente.Nome+activity.Text);
+                //await connector.Conversations.ReplyToActivityAsync(reply3);
 
-                    if (activity.Text == cliente.Nome)
-                        //Cliente nao errou o nome
-                        Modulo.aceite = false;
+                if (!activity.Text.Equals(cliente.Nome.Trim()))
+                        Modulo.aceite = true;
 
 
                 }
@@ -100,11 +97,12 @@ namespace formflow
 
                 }
                 Modulo.contador += 1;
-            }
-            await Conversation.SendAsync(activity, () => {
-                    return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
+            
+            await Conversation.SendAsync(activity, () =>
+            {
+                return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
             });
-         
+
             var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
          
             return responseHttp;
