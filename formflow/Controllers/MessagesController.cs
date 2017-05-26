@@ -35,12 +35,15 @@ namespace formflow
 
             Cliente cliente = new Cliente();
             Conexao conexao = new Conexao();
+            Oferta oferta = new Oferta();
 
-            cliente = conexao.ObterClientePorNome("Renato");
+            //cliente = conexao.ObterClientePorNome("Marcia");
+            cliente = conexao.ObterClientePorStatus("Em andamento");
+            oferta = conexao.ObterOferta(cliente.IdCliente);
 
             //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
-            //var reply = activity.CreateReply($""+cliente.Nome+cliente.CPF+cliente.Fax);
-            //await connector.Conversations.ReplyToActivityAsync(reply);
+            var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+oferta.IdOferta+" "+oferta.ValorDivida);
+            await connector.Conversations.ReplyToActivityAsync(reply);
             //-----------------------------------------------------------------------------------------------------------
             //var reply = activity.CreateReply($"Contador: " + Modulo.contador);
             //await connector.Conversations.ReplyToActivityAsync(reply);
