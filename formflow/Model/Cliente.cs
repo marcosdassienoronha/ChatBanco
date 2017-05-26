@@ -20,5 +20,10 @@ namespace formflow.Model
         public string Fax { get; set; }
         public string CPF { get; set; }
         public string Status { get; set; }
+        public Oferta oferta;
+
+        public Cliente(){
+            oferta = new Oferta();
+        }
     }
 }
