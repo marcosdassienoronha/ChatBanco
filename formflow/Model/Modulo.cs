@@ -7,9 +7,11 @@ namespace formflow.Model
 {
      public class  Modulo
     {
+         
+
         public static int contador = 0;
         public static bool aceite;
-
+        public static Oferta oferta;
 
         public Modulo()
         {

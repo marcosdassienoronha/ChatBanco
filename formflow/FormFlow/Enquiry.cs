@@ -20,18 +20,20 @@ namespace formflow.FormFlow
     public class Enquiry
     {
 
-         
 
 
+        public float ValorDivida = Modulo.oferta.ValorDivida;
+        public float ValorOferta = Modulo.oferta.ValorOferta;
+        public int NumParcelas = Modulo.oferta.NumParcelas;
 
-            [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
+        [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
             public  YesOrNoOptionsConta Conta { get; set; }
             [Prompt("Como você se chama? ")]
             public string Nome { get; set; }
             [Prompt("Certo. {Nome}, por favor, forneça seu Cpf? ")]
             public string Cpf { get; set; }
-            [Prompt("Voce está de acordo com o combinado na negociação? {||}")]
+            [Prompt("Como havia dito, constatamos no sistema uma divida no valor de {ValorDivida} a qual podemos fazer por {ValorOferta} em {NumParcelas} vezes. Voce está de acordo com o combinado na negociação? {||}")]
             public YesOrNoOptionsNegociacao AcordoNegociacao { get; set; }
 
 
@@ -55,8 +57,8 @@ namespace formflow.FormFlow
                 .Field("Nome", state => !Modulo.aceite)
                 .Field("Cpf", state => !Modulo.aceite)
                 .Field("AcordoNegociacao", state => !Modulo.aceite)
-                .AddRemainingFields()
-                .Confirm("Resumo da negociação: Nome: {Nome} \n CPF: {Cpf} \n Aceite da Negociação: {AcordoNegociacao}", state => !Modulo.aceite)
+                .Message("Obrigado, negociação concluida com sucesso!", state => !Modulo.aceite)
+                .AddRemainingFields() 
                 .Build();
 
             Modulo.contador = 1;

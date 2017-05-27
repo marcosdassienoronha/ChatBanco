@@ -42,6 +42,7 @@ namespace formflow
             cliente = conexao.ObterClientePorNome("Renato");
             //cliente = conexao.ObterClientePorStatus("Inadimplente");
             cliente.oferta = conexao.ObterOferta(cliente.IdCliente);
+            Modulo.oferta = cliente.oferta;
 
             ////CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
             //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
@@ -85,8 +86,18 @@ namespace formflow
 
 
                 }
+            if (Modulo.contador == 4 && activity.Text.Equals("1"))
+            {
+                //var reply23 = activity.CreateReply($"activity text = " + activity.Text);
+                //await connector.Conversations.ReplyToActivityAsync(reply23);
+                //var reply2 = activity.CreateReply($"cliente.cpf  = " + cliente.CPF);
+                //await connector.Conversations.ReplyToActivityAsync(reply2);
+                Modulo.aceite = false;
 
-                else if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
+
+            }
+
+            else if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
                 {
                     //var reply23 = activity.CreateReply($"activity text = " + activity.Text);
                     //await connector.Conversations.ReplyToActivityAsync(reply23);
@@ -96,7 +107,9 @@ namespace formflow
 
 
                 }
-                Modulo.contador += 1;
+           
+
+            Modulo.contador += 1;
             
             await Conversation.SendAsync(activity, () =>
             {
