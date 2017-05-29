@@ -26,7 +26,7 @@ namespace formflow.FormFlow
         public float ValorOferta = Modulo.oferta.ValorOferta;
         public int NumParcelas = Modulo.oferta.NumParcelas;
 
-        [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
+            [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
             "pertencente a você? {||}")]
             public  YesOrNoOptionsConta Conta { get; set; }
             [Prompt("Como você se chama? ")]
@@ -53,15 +53,16 @@ namespace formflow.FormFlow
 
             return builder
                 .Field("Conta", state => !Modulo.aceite)
-                .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
+                
                 .Field("Nome", state => !Modulo.aceite)
                 .Field("Cpf", state => !Modulo.aceite)
                 .Field("AcordoNegociacao", state => !Modulo.aceite)
+                .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
                 .Message("Obrigado, negociação concluida com sucesso!", state => !Modulo.aceite)
-                .AddRemainingFields() 
+                .AddRemainingFields(null)
                 .Build();
 
-            Modulo.contador = 1;
+             
         }
 
         public static IFormDialog<Enquiry> BuildFormDialog(FormOptions options = FormOptions.PromptInStart)

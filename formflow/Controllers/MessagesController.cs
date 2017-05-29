@@ -62,8 +62,8 @@ namespace formflow
                     //var reply2 = activity.CreateReply($"NAO E A CONTA DA PESSOA | contador = " + Modulo.contador);
                     //await connector.Conversations.ReplyToActivityAsync(reply2);
                     Modulo.aceite = true;
-                    Modulo.contador += 1;
-
+                 
+                    
 
                 }
 
@@ -76,14 +76,13 @@ namespace formflow
                 if (!activity.Text.Equals(cliente.Nome.Trim()))
                         Modulo.aceite = true;
 
-
-                }
+            }
                 if (Modulo.contador == 4 && activity.Text.Equals("2"))
                 {
                     //var reply4 = activity.CreateReply($"Contador: " + Modulo.contador);
                     //await connector.Conversations.ReplyToActivityAsync(reply4);
                     Modulo.aceite = true;
-
+               
 
                 }
             if (Modulo.contador == 4 && activity.Text.Equals("1"))
@@ -93,7 +92,7 @@ namespace formflow
                 //var reply2 = activity.CreateReply($"cliente.cpf  = " + cliente.CPF);
                 //await connector.Conversations.ReplyToActivityAsync(reply2);
                 Modulo.aceite = false;
-
+                
 
             }
 
@@ -104,9 +103,9 @@ namespace formflow
                     //var reply2 = activity.CreateReply($"cliente.cpf  = " + cliente.CPF);
                     //await connector.Conversations.ReplyToActivityAsync(reply2);
                     Modulo.aceite = true;
+             
 
-
-                }
+            }
            
 
             Modulo.contador += 1;
