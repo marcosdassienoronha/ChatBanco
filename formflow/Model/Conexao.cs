@@ -13,6 +13,7 @@ namespace formflow.Model
         //objeto cliente que será retornado pelo método 
         private Cliente cliente;
         private Oferta oferta;
+        private Negociacao negociacao;
         SqlDataReader leitor;
         SqlCommand cmd;
 
@@ -68,7 +69,18 @@ namespace formflow.Model
             formatOferta(leitor);
             return oferta;
         }
-
+        public Negociacao ObterNegociacao(int _cliente)
+        {
+            SqlDataReader leitor;
+            SqlCommand cmd;
+            conn.Open();
+            string sql = "SELECT * from bot.negociacao WHERE id_cliente=@Cliente";
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Cliente", _cliente);
+            leitor = cmd.ExecuteReader();
+            formatNegociacao(leitor);
+            return negociacao;
+        }
 
         private Oferta formatOferta(SqlDataReader _leitor)
         {
@@ -104,6 +116,21 @@ namespace formflow.Model
             }
             conn.Close();
             return cliente;
+        }
+
+        private Negociacao formatNegociacao(SqlDataReader _leitor)
+        {
+            while (_leitor.Read())
+            {
+                negociacao.idNegociacao = Convert.ToInt32(_leitor["id_negociacao"].ToString());
+                negociacao.valorNegociacao = float.Parse(_leitor["valor_negociacao"].ToString());
+                negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
+                negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
+                negociacao.diaPagamento = DateTime.Parse(_leitor["dia_pagamento"].ToString());
+            }
+
+            conn.Close();
+            return negociacao;
         }
     }
 }

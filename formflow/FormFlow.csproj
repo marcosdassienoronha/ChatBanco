@@ -128,6 +128,7 @@
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Conexao.cs" />
     <Compile Include="Model\Modulo.cs" />
+    <Compile Include="Model\Negociacao.cs" />
     <Compile Include="Model\Oferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Entity.cs" />

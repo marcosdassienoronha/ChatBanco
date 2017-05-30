@@ -12,6 +12,7 @@ namespace formflow.Model
         public static int contador = 0;
         public static bool aceite;
         public static Oferta oferta;
+        public static Negociacao negociacao;
 
         public Modulo()
         {
