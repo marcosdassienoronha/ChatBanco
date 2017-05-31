@@ -24,7 +24,7 @@ namespace formflow.FormFlow
         //----------------//----------------//
         //Variaveis da negociacao
         public int idNegociacao = Modulo.negociacao.idNegociacao;
-        public int idCliente = Modulo.negociacao.idCliente;
+       // public int idCliente = Modulo.negociacao.idCliente;
         public float valorNegociacao = Modulo.negociacao.valorNegociacao;
         public int qtdParcelasNegociacao = Modulo.negociacao.qtdParcelasNegociacao;
         public int parcelasPagasNegociacao = Modulo.negociacao.parcelasPagasNegociacao;

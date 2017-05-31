@@ -60,11 +60,12 @@ namespace formflow
             //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
             //await connector.Conversations.ReplyToActivityAsync(reply);
             //----------------//----------------//
-             
 
+            
             if (Modulo.contador == 1 && activity.Text.Equals("2"))
                 {
-                        Modulo.aceite = true;
+                //conexao.SalvarContatoRealizado();
+                Modulo.aceite = true;
                 }
 
                 if (Modulo.contador == 2)

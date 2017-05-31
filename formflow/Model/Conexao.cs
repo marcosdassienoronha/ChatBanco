@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.FormFlow;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -62,33 +63,34 @@ namespace formflow.Model
             SqlDataReader leitor;
             SqlCommand cmd; 
             conn.Open();
-            string sql = "SELECT * from bot.ofertas WHERE id_cliente=@Cliente";
+            string sql = "SELECT * from [bot].[ofertas] INNER JOIN [bot].[clienteoferta] ON [bot].[ofertas].[id_oferta] = [bot].[clienteoferta].[id_oferta]" +
+                "INNER JOIN [bot].[cliente] ON [bot].[cliente].[id_cliente]=@Cliente";
             cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@Cliente", _cliente);
             leitor = cmd.ExecuteReader();
             formatOferta(leitor);
             return oferta;
         }
-        public Negociacao ObterNegociacao(int _cliente)
-        {
-            SqlDataReader leitor;
-            SqlCommand cmd;
-            conn.Open();
-            string sql = "SELECT * from bot.negociacao WHERE id_cliente=@Cliente";
-            cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@Cliente", _cliente);
-            leitor = cmd.ExecuteReader();
-            formatNegociacao(leitor);
-            return negociacao;
-        }
+        //public Negociacao ObterNegociacao(int _cliente)
+        //{
+        //    SqlDataReader leitor;
+        //    SqlCommand cmd;
+        //    conn.Open();
+        //    string sql = "SELECT * from bot.negociacao WHERE id_cliente=@Cliente";
+        //    cmd = new SqlCommand(sql, conn);
+        //    cmd.Parameters.AddWithValue("@Cliente", _cliente);
+        //    leitor = cmd.ExecuteReader();
+        //    formatNegociacao(leitor);
+        //    return negociacao;
+        //}
 
         private Oferta formatOferta(SqlDataReader _leitor)
         {
             while (_leitor.Read())
             {
                 oferta.IdOferta = Convert.ToInt32(_leitor["id_oferta"].ToString());
-                oferta.ValorDivida = float.Parse(_leitor["valor_divida"].ToString());
-                oferta.ValorOferta = float.Parse(_leitor["valor_oferta"].ToString());
+                oferta.ValorDivida = float.Parse(_leitor["entrada"].ToString());
+                oferta.ValorOferta = float.Parse(_leitor["desconto"].ToString());
                 oferta.NumParcelas = int.Parse(_leitor["num_parcelas"].ToString());
             }
 
@@ -118,19 +120,49 @@ namespace formflow.Model
             return cliente;
         }
 
-        private Negociacao formatNegociacao(SqlDataReader _leitor)
-        {
-            while (_leitor.Read())
-            {
-                negociacao.idNegociacao = Convert.ToInt32(_leitor["id_negociacao"].ToString());
-                negociacao.valorNegociacao = float.Parse(_leitor["valor_negociacao"].ToString());
-                negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
-                negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
-                negociacao.diaPagamento = DateTime.Parse(_leitor["dia_pagamento"].ToString());
-            }
+        //private Negociacao formatNegociacao(SqlDataReader _leitor)
+        //{
+        //    while (_leitor.Read())
+        //    {
+        //        negociacao.idNegociacao = Convert.ToInt32(_leitor["id_negociacao"].ToString());
+        //        negociacao.valorNegociacao = float.Parse(_leitor["valor_negociacao"].ToString());
+        //        negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
+        //        negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
+        //        negociacao.diaPagamento = DateTime.Parse(_leitor["dia_pagamento"].ToString());
+        //    }
 
-            conn.Close();
-            return negociacao;
-        }
+        //    conn.Close();
+        //    return negociacao;
+        //}
+
+        //public void SalvarContatoRealizado()
+        //{
+        //    using (SqlConnection conn = new SqlConnection("connectionString"))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand())
+        //        {
+        //            cmd.Connection = conn;
+        //            cmd.CommandType = CommandType.Text;
+        //            cmd.CommandText = @"INSERT INTO Contato(id_contato, id_cliente, data_contato, canal, tentativa_contato) 
+        //                    VALUES(@param1,@param2,@param3,@param4,@param5)";
+
+        //            cmd.Parameters.AddWithValue("@param1", 1);
+        //            cmd.Parameters.AddWithValue("@param2", 1);
+        //            cmd.Parameters.AddWithValue("@param3", "2017-10-10");
+        //            cmd.Parameters.AddWithValue("@param4", "20202020");
+        //            cmd.Parameters.AddWithValue("@param5", "2017-10-10");
+        //            try
+        //            {
+        //                conn.Open();
+        //                cmd.ExecuteNonQuery();
+        //            }
+        //            catch (SqlException e)
+        //            {
+
+        //            }
+
+        //        }
+        //    }
+        //}
     }
 }
