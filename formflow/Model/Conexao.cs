@@ -135,34 +135,33 @@ namespace formflow.Model
         //    return negociacao;
         //}
 
-        //public void SalvarContatoRealizado()
-        //{
-        //    using (SqlConnection conn = new SqlConnection("connectionString"))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand())
-        //        {
-        //            cmd.Connection = conn;
-        //            cmd.CommandType = CommandType.Text;
-        //            cmd.CommandText = @"INSERT INTO Contato(id_contato, id_cliente, data_contato, canal, tentativa_contato) 
-        //                    VALUES(@param1,@param2,@param3,@param4,@param5)";
+        public String SalvarContatoRealizado(int _cliente)
+        {
+            DateTime today = DateTime.Now;
 
-        //            cmd.Parameters.AddWithValue("@param1", 1);
-        //            cmd.Parameters.AddWithValue("@param2", 1);
-        //            cmd.Parameters.AddWithValue("@param3", "2017-10-10");
-        //            cmd.Parameters.AddWithValue("@param4", "20202020");
-        //            cmd.Parameters.AddWithValue("@param5", "2017-10-10");
-        //            try
-        //            {
-        //                conn.Open();
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //            catch (SqlException e)
-        //            {
 
-        //            }
+                    cmd.Connection = conn;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"INSERT INTO [bot].[contato](id_cliente, data_contato, canal, tentativa_contato) 
+                            VALUES(@param2,@param3,@param4,@param5)";
 
-        //        }
-        //    }
-        //}
+                    
+                    cmd.Parameters.AddWithValue("@param2", _cliente );
+                    cmd.Parameters.AddWithValue("@param3", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
+                    cmd.Parameters.AddWithValue("@param4", "Facebook");
+                    cmd.Parameters.AddWithValue("@param5", "OK"); //ATUALIZAR ESTA VALIDACAO DE ACORDO COM O RETORNO DA TENTATIVA DE CONTATO
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (SqlException e)
+                    {
+                return "error" + e;
+                    }
+
+            return null; 
+
+        }
     }
 }

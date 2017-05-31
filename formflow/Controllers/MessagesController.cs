@@ -61,7 +61,12 @@ namespace formflow
             //await connector.Conversations.ReplyToActivityAsync(reply);
             //----------------//----------------//
 
-            
+                if (Modulo.contador == 1 && activity.Text.Equals("1"))
+                {
+                String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
+                var reply = activity.CreateReply($"" + retorno);
+                await connector.Conversations.ReplyToActivityAsync(reply);
+            }
             if (Modulo.contador == 1 && activity.Text.Equals("2"))
                 {
                 //conexao.SalvarContatoRealizado();
