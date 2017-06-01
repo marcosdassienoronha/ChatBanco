@@ -26,7 +26,7 @@ namespace formflow.Model
             oferta = new Oferta();
             conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
             //abro conexão 
-            conn.Open();
+           // conn.Open();
         }
 
         //método que faz a consulta no bd e obtém o cliente 
@@ -49,6 +49,24 @@ namespace formflow.Model
             formatCliente(leitor);
             return cliente;
         }
+        //public Cliente ObterStatusParcelaPorNome(string nome)
+        //{
+
+        //    //string com o comando a ser executado 
+        //    string sql = "SELECT * from bot.cliente WHERE nome_cliente=@Nome";
+
+        //    //instância do comando recebendo como parâmetro 
+        //    cmd = new SqlCommand(sql, conn);
+
+        //    //informo o parâmetro do comando 
+        //    cmd.Parameters.AddWithValue("@Nome", nome);
+
+
+        //    //instância do leitor 
+        //    leitor = cmd.ExecuteReader();
+        //    formatCliente(leitor);
+        //    return cliente;
+        //}
         public Cliente ObterClientePorStatus(string _status)
         {
             string sql = "SELECT * from bot.cliente WHERE status=@Status";
@@ -71,18 +89,20 @@ namespace formflow.Model
             formatOferta(leitor);
             return oferta;
         }
-        //public Negociacao ObterNegociacao(int _cliente)
-        //{
-        //    SqlDataReader leitor;
-        //    SqlCommand cmd;
-        //    conn.Open();
-        //    string sql = "SELECT * from bot.negociacao WHERE id_cliente=@Cliente";
-        //    cmd = new SqlCommand(sql, conn);
-        //    cmd.Parameters.AddWithValue("@Cliente", _cliente);
-        //    leitor = cmd.ExecuteReader();
-        //    formatNegociacao(leitor);
-        //    return negociacao;
-        //}
+        public Negociacao ObterNegociacao(int _cliente)
+        {
+            
+            SqlDataReader leitor;
+            SqlCommand cmd;
+            conn.Open();
+            string sql = "SELECT * from [bot].[negociacao] INNER JOIN [bot].[contato] ON [bot].[negociacao].[id_contato] = [bot].[contato].[id_contato]" +
+                "INNER JOIN [bot].[cliente] ON [bot].[cliente].[id_cliente]=1";
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Cliente", _cliente);
+            leitor = cmd.ExecuteReader();
+            formatNegociacao(leitor);
+            return negociacao;
+        }
 
         private Oferta formatOferta(SqlDataReader _leitor)
         {
@@ -120,20 +140,23 @@ namespace formflow.Model
             return cliente;
         }
 
-        //private Negociacao formatNegociacao(SqlDataReader _leitor)
-        //{
-        //    while (_leitor.Read())
-        //    {
-        //        negociacao.idNegociacao = Convert.ToInt32(_leitor["id_negociacao"].ToString());
-        //        negociacao.valorNegociacao = float.Parse(_leitor["valor_negociacao"].ToString());
-        //        negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
-        //        negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
-        //        negociacao.diaPagamento = DateTime.Parse(_leitor["dia_pagamento"].ToString());
-        //    }
+        private Negociacao formatNegociacao(SqlDataReader _leitor)
+        {
+            while (_leitor.Read())
+            {
+                negociacao.idNegociacao = int.Parse(_leitor["id_negociacao"].ToString());
+                negociacao.idContato = Convert.ToInt32(_leitor["id_contato"].ToString());
+                negociacao.valorNegociacao = float.Parse(_leitor["valor_negociacao"].ToString());
+                negociacao.inicioPagamento = Convert.ToDateTime(_leitor["inicio_pagamento"].ToString());
+                negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
+                negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
+                negociacao.diaPagamento = Convert.ToDateTime(_leitor["dia_pagamento"].ToString());
 
-        //    conn.Close();
-        //    return negociacao;
-        //}
+            }
+
+            conn.Close();
+            return negociacao;
+        }
 
         public String SalvarContatoRealizado(int _cliente)
         {

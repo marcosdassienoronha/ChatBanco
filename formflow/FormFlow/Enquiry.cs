@@ -24,7 +24,7 @@ namespace formflow.FormFlow
         //----------------//----------------//
         //Variaveis da negociacao
         public int idNegociacao = Modulo.negociacao.idNegociacao;
-       // public int idCliente = Modulo.negociacao.idCliente;
+        public int idContato = Modulo.negociacao.idContato;
         public float valorNegociacao = Modulo.negociacao.valorNegociacao;
         public int qtdParcelasNegociacao = Modulo.negociacao.qtdParcelasNegociacao;
         public int parcelasPagasNegociacao = Modulo.negociacao.parcelasPagasNegociacao;
@@ -40,6 +40,10 @@ namespace formflow.FormFlow
         public int NumParcelas = Modulo.oferta.NumParcelas;
         //----------------//----------------//
 
+
+
+        [Prompt("Notas que você tem uma parcela prestes a vencer. Aproveite para pagar e ganhar até x% de desconto! ")]
+        public YesOrNoOptionsConta ParcelaVencendo { get; set; }
 
 
         [Prompt("Olá, sou um representante do Banco 1500, notamos que há algumas contas suas pendentes e gostariamos de negocia-las. A conta número 23323-90 é " +
@@ -85,6 +89,7 @@ namespace formflow.FormFlow
             // Builds an IForm<T> based on BasicForm
 
             return builder
+                //.Field("ParcelaVencendo", state => !Modulo.aceite)
                 .Field("Conta", state => !Modulo.aceite)
                 .Field("Nome", state => !Modulo.aceite)
                 .Field("Cpf", state => !Modulo.aceite)

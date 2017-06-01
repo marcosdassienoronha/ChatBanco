@@ -1,5 +1,6 @@
 ﻿using ChatBot.Serialization;
 using ChatBot.Services;
+using formflow.Controllers;
 using formflow.FormFlow;
 using formflow.Model;
 using Microsoft.Bot.Builder.Dialogs;
@@ -43,7 +44,10 @@ namespace formflow
             //Este cliente encontra-se com todos seus dados [inclusive a oferta - cliente.oferta]
             cliente = conexao.ObterClientePorNome("Renato");
             //cliente = conexao.ObterClientePorStatus("Inadimplente");
+            negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             cliente.oferta = conexao.ObterOferta(cliente.IdCliente);
+            
+
             //----------------//----------------//
 
 
@@ -56,21 +60,26 @@ namespace formflow
 
 
             //----------------//----------------//
-            ////CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
+            //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
             //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
             //await connector.Conversations.ReplyToActivityAsync(reply);
             //----------------//----------------//
 
-                if (Modulo.contador == 1 && activity.Text.Equals("1"))
+
+                //----------------//----------------//
+                //Armazena as informações desta tentativa/efetivacao de contato com o cliente
+                if (Modulo.contador == 0) 
                 {
-                String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
-                var reply = activity.CreateReply($"" + retorno);
-                await connector.Conversations.ReplyToActivityAsync(reply);
+                             String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
+                            //String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+
+                //var reply = activity.CreateReply($"" + pagamento);
+                //await connector.Conversations.ReplyToActivityAsync(reply);
             }
+            //----------------//----------------//
             if (Modulo.contador == 1 && activity.Text.Equals("2"))
-                {
-                //conexao.SalvarContatoRealizado();
-                Modulo.aceite = true;
+                {    
+                        Modulo.aceite = true;
                 }
 
                 if (Modulo.contador == 2)
