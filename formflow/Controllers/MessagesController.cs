@@ -44,10 +44,7 @@ namespace formflow
             //Este cliente encontra-se com todos seus dados [inclusive a oferta - cliente.oferta]
             cliente = conexao.ObterClientePorNome("Renato");
             //cliente = conexao.ObterClientePorStatus("Inadimplente");
-            negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             cliente.oferta = conexao.ObterOferta(cliente.IdCliente);
-            
-
             //----------------//----------------//
 
 
@@ -55,7 +52,7 @@ namespace formflow
             //Atribuindo o objeto atual a estes objeto da classe Modulo,
             //para poder utiliza-los na classe "Enquiry", mais especificamente, nos "Propts".
             Modulo.oferta = cliente.oferta;
-            Modulo.negociacao = negociacao;
+            Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             //----------------//----------------//
 
 
@@ -71,15 +68,16 @@ namespace formflow
                 if (Modulo.contador == 0) 
                 {
                              String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
-                            //String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+                            String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
 
-                //var reply = activity.CreateReply($"" + pagamento);
-                //await connector.Conversations.ReplyToActivityAsync(reply);
+               // var reply = activity.CreateReply($"" + pagamento);
+               // await connector.Conversations.ReplyToActivityAsync(reply);
             }
             //----------------//----------------//
             if (Modulo.contador == 1 && activity.Text.Equals("2"))
                 {    
                         Modulo.aceite = true;
+                        
                 }
 
                 if (Modulo.contador == 2)

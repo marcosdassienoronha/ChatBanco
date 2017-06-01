@@ -1,5 +1,6 @@
 ﻿using Microsoft.Bot.Builder.FormFlow;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,15 +19,18 @@ namespace formflow.Model
         SqlDataReader leitor;
         SqlCommand cmd;
 
+       
+
         //instância da conexão 
         SqlConnection conn;
         //public string Nome { get; set; }
         public Conexao() {
             cliente = new Cliente();
             oferta = new Oferta();
+            negociacao = new Negociacao();
             conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
             //abro conexão 
-           // conn.Open();
+           conn.Open();
         }
 
         //método que faz a consulta no bd e obtém o cliente 

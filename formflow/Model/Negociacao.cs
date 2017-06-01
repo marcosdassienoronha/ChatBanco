@@ -8,6 +8,8 @@ namespace formflow.Model
     public class Negociacao
     {
 
+
+
         public int idNegociacao { get; set; }
         public int idContato { get; set; }
         public float valorNegociacao { get; set; } 
@@ -16,7 +18,10 @@ namespace formflow.Model
         public int parcelasPagasNegociacao { get; set; }
         public DateTime diaPagamento { get; set; }
 
+        public Negociacao()
+        {
+           
+        }
 
-        
     }
 }
