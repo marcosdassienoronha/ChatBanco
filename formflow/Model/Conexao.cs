@@ -30,14 +30,21 @@ namespace formflow.Model
             negociacao = new Negociacao();
             conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
             //abro conexão 
-           conn.Open();
+           //conn.Open();
+        }
+        public void abrirConexao() {
+            conn.Open();
+        }
+        public void fecharConexao()
+        {
+            conn.Close();
         }
 
         //método que faz a consulta no bd e obtém o cliente 
         //cujo o nome é informado pelo parâmetro 
         public Cliente ObterClientePorNome(string nome)
         {
-            
+            conn.Open();
             //string com o comando a ser executado 
             string sql = "SELECT * from bot.cliente WHERE nome_cliente=@Nome";
 
@@ -73,6 +80,7 @@ namespace formflow.Model
         //}
         public Cliente ObterClientePorStatus(string _status)
         {
+            conn.Open();
             string sql = "SELECT * from bot.cliente WHERE status=@Status";
             cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@Status", _status);
@@ -80,7 +88,7 @@ namespace formflow.Model
             formatCliente(leitor); 
             return cliente;
         }
-        public Oferta ObterOferta(int _cliente)
+        public ArrayList ObterOfertas(int _cliente)
         {
             SqlDataReader leitor;
             SqlCommand cmd; 
@@ -90,8 +98,7 @@ namespace formflow.Model
             cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@Cliente", _cliente);
             leitor = cmd.ExecuteReader();
-            formatOferta(leitor);
-            return oferta;
+            return formatOfertas(leitor);
         }
         public Negociacao ObterNegociacao(int _cliente)
         {
@@ -108,18 +115,22 @@ namespace formflow.Model
             return negociacao;
         }
 
-        private Oferta formatOferta(SqlDataReader _leitor)
+        private ArrayList formatOfertas(SqlDataReader _leitor)
         {
+            ArrayList ofertas = new ArrayList();
             while (_leitor.Read())
             {
+                oferta = new Oferta();
                 oferta.IdOferta = Convert.ToInt32(_leitor["id_oferta"].ToString());
-                oferta.ValorDivida = float.Parse(_leitor["entrada"].ToString());
-                oferta.ValorOferta = float.Parse(_leitor["desconto"].ToString());
-                oferta.NumParcelas = int.Parse(_leitor["num_parcelas"].ToString());
+                oferta.entrada = float.Parse(_leitor["entrada"].ToString());
+                oferta.desconto = float.Parse(_leitor["desconto"].ToString());
+                oferta.numParcelas = int.Parse(_leitor["num_parcelas"].ToString());
+                oferta.status = _leitor["status"].ToString();
+                ofertas.Add(oferta);
             }
 
             conn.Close();
-            return oferta;
+            return ofertas;
         }
         private Cliente formatCliente(SqlDataReader _leitor) {
             while (_leitor.Read())
@@ -161,7 +172,25 @@ namespace formflow.Model
             conn.Close();
             return negociacao;
         }
+        public void updateOferta(int _id, String _status) {
+            SqlCommand cmd;
+            //conn.Open();
+            string sql = "UPDATE [bot].[ofertas] SET status = @Status WHERE id_oferta = @Id";
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Status", _status);
+            cmd.Parameters.AddWithValue("@Id", _id);
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
 
+            }
+            catch (SqlException e)
+            {
+            }
+            //conn.Close();
+        }
         public String SalvarContatoRealizado(int _cliente)
         {
             DateTime today = DateTime.Now;
@@ -181,6 +210,7 @@ namespace formflow.Model
                     {
                         conn.Open();
                         cmd.ExecuteNonQuery();
+                        conn.Close();
                     }
                     catch (SqlException e)
                     {
@@ -189,6 +219,38 @@ namespace formflow.Model
 
             return null; 
 
+        }
+        public Oferta ObterOferta(int _id)
+        {
+            conn.Open();
+            //string com o comando a ser executado 
+            string sql = "SELECT * from bot.ofertas WHERE id_oferta=@Id";
+
+            //instância do comando recebendo como parâmetro 
+            cmd = new SqlCommand(sql, conn);
+
+            //informo o parâmetro do comando 
+            cmd.Parameters.AddWithValue("@Id", _id);
+
+
+            //instância do leitor 
+            leitor = cmd.ExecuteReader();
+            formatOferta(leitor);
+            return oferta;
+        }
+        private Oferta formatOferta(SqlDataReader _leitor)
+        {
+            while (_leitor.Read())
+            {
+                oferta.IdOferta = Convert.ToInt32(_leitor["id_oferta"].ToString());
+                oferta.entrada = float.Parse(_leitor["entrada"].ToString());
+                oferta.desconto = float.Parse(_leitor["desconto"].ToString());
+                oferta.numParcelas = int.Parse(_leitor["num_parcelas"].ToString());
+                oferta.status = _leitor["status"].ToString();
+            }
+
+            conn.Close();
+            return oferta;
         }
     }
 }

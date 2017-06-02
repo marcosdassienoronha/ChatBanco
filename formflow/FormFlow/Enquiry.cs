@@ -35,9 +35,9 @@ namespace formflow.FormFlow
 
         //----------------//----------------//
         //Variaveis de oferta
-        public float ValorDivida = Modulo.oferta.ValorDivida;
-        public float ValorOferta = Modulo.oferta.ValorOferta;
-        public int NumParcelas = Modulo.oferta.NumParcelas;
+        public float ValorDivida = Modulo.oferta.entrada;
+        public float ValorOferta = Modulo.oferta.desconto;
+        public int NumParcelas = Modulo.oferta.numParcelas;
         //----------------//----------------//
 
 

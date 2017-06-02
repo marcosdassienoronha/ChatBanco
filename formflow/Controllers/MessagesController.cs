@@ -7,6 +7,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
@@ -39,12 +41,15 @@ namespace formflow
             Conexao conexao = new Conexao();
             Negociacao negociacao = new Negociacao();
             Oferta oferta = new Oferta();
+            ArrayList ofertas = new ArrayList();
 
             //----------------//----------------//
             //Este cliente encontra-se com todos seus dados [inclusive a oferta - cliente.oferta]
-            cliente = conexao.ObterClientePorNome("Renato");
-            //cliente = conexao.ObterClientePorStatus("Inadimplente");
-            cliente.oferta = conexao.ObterOferta(cliente.IdCliente);
+            cliente = conexao.ObterClientePorNome("Renato"); // busca um cliente
+            cliente.countOfertas(); // busca e retorna as ofertas a ofertar
+           // cliente.validarOferta("offered"); // atribui o novo status da oferta e atualiza a proxima oferta
+            
+            cliente.validarOferta("offer");//validar oferta no banco, offered = ofertado **** ofeerm = a ofertar  
             //----------------//----------------//
 
 

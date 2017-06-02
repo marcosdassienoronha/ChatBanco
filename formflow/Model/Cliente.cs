@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,9 +22,30 @@ namespace formflow.Model
         public string CPF { get; set; }
         public string Status { get; set; }
         public Oferta oferta;
+        public ArrayList ofertas ;
+        Conexao conexao ;
 
         public Cliente(){
             oferta = new Oferta();
+            ofertas = new ArrayList();
+            //conexao = new Conexao();
+        }
+        public void validarOferta(String _status) { //altera status da oferta e já adiciona outra
+            conexao = new Conexao();            
+            conexao.updateOferta(this.oferta.IdOferta, _status);
+            countOfertas();
+        }
+        // retorna a quantidade de ofertas disponivel para oferecer ao cliente
+        // para retornar a quantidade de ofertas ainda disponivel basta usar [cliente].ofertas.Count;
+        public int countOfertas() { 
+            conexao = new Conexao();  
+            ofertas = conexao.ObterOfertas(this.IdCliente);
+            foreach (Oferta _oferta in ofertas) {
+                if (_oferta.status == "offered")
+                    ofertas.Remove(_oferta);
+            }
+            this.oferta = (Oferta)ofertas[0];
+            return ofertas.Count;
         }
     }
 }
