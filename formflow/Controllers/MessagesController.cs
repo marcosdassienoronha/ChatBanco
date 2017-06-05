@@ -68,9 +68,9 @@ namespace formflow
             //----------------//----------------//
 
 
-                //----------------//----------------//
-                //Armazena as informações desta tentativa/efetivacao de contato com o cliente
-                if (Modulo.contador == 0) 
+            //----------------//----------------//
+            //Armazena as informações desta tentativa/efetivacao de contato com o cliente
+            if (Modulo.contador == 0) 
                 {
                              String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
                             String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
@@ -79,31 +79,69 @@ namespace formflow
                // await connector.Conversations.ReplyToActivityAsync(reply);
             }
             //----------------//----------------//
-            if (Modulo.contador == 1 && activity.Text.Equals("2"))
-                {    
-                        Modulo.aceite = true;
+                //Valida interesse na negociação------------------------------------//
+                if (Modulo.contador == 1 && activity.Text.Equals("2"))
+                    {    
+                            Modulo.aceite = true;
                         
-                }
+                    }
 
+
+                //Valida o Nome------------------------------------//
                 if (Modulo.contador == 2)
-                {
-                        if (!activity.Text.Equals(cliente.Nome.Trim()))
-                             Modulo.aceite = true;
-                }
-                if (Modulo.contador == 4 && activity.Text.Equals("2"))
-                {
-                        Modulo.aceite = true;
-                }
-                if (Modulo.contador == 4 && activity.Text.Equals("1"))
-                {
-                        Modulo.aceite = false;
-                }
-                if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
-                {
-                        Modulo.aceite = true;
-                }
+                    {
+                            if (!activity.Text.Equals(cliente.Nome.Trim()))
+                                 Modulo.aceite = true;
+                    }
 
-                   Modulo.contador += 1;
+                //Valida o CPF------------------------------------//
+                if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
+                    {
+                        Modulo.aceite = true;
+                    }
+
+                //Primeira proposta------------------------------------//
+
+                if (Modulo.contador == 4 && activity.Text.Equals("2"))
+                    {
+                            Modulo.aceite = true;
+                    }
+                
+                
+                if (Modulo.contador == 4 && activity.Text.Equals("1"))
+                    {
+                            Modulo.aceite = false;
+                    }
+                //-----------------------------------------------------//
+
+
+                //Segunda proposta------------------------------------//
+                if (Modulo.contador == 5 && activity.Text.Equals("2"))
+                    {
+                        Modulo.aceite = true;
+                    }
+
+                if (Modulo.contador == 5 && activity.Text.Equals("1"))
+                    {
+                        Modulo.aceite = false;
+                    }
+                //-----------------------------------------------------//
+
+
+                //Terceira proposta------------------------------------//
+                if (Modulo.contador == 6 && activity.Text.Equals("2"))
+                    {
+                        Modulo.aceite = true;
+                    }
+
+                if (Modulo.contador == 6 && activity.Text.Equals("1"))
+                    {
+                        Modulo.aceite = false;
+                    }
+                //-----------------------------------------------------//
+
+
+            Modulo.contador += 1;
             
             await Conversation.SendAsync(activity, () =>
             {

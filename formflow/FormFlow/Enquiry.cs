@@ -66,6 +66,20 @@ namespace formflow.FormFlow
             public YesOrNoOptionsNegociacao AcordoNegociacao { get; set; }
         //----------------------------------//
 
+        //----------------//----------------//
+        //Confirmar se aceita a negociação final
+        //
+        [Prompt("Tudo bem {Nome}, estamos aqui para te ajudar a renegociar sua dívida, e se fizessemos por {ValorOferta} em {NumParcelas} vezes, ficaria melhor pra você? {||}")]
+        public YesOrNoOptionsNegociacao AcordoNegociacao2 { get; set; }
+        //----------------------------------//
+
+        //----------------//----------------//
+        //Confirmar se aceita a negociação final
+        //
+        [Prompt("Como eu disse, nosso desejo é te ajudar, com isso estamos te dando um desconto no valor da dívida, passando agora para {ValorOferta} em {NumParcelas}. Aproveite esse desconto, é o máximo que posso fazer por você. Você concorda? {||}")]
+        public YesOrNoOptionsNegociacao AcordoNegociacao3 { get; set; }
+        //----------------------------------//
+
 
         //----------------//----------------//
         //Mostrar resumo final da negociação
@@ -93,8 +107,10 @@ namespace formflow.FormFlow
                 .Field("Conta", state => !Modulo.aceite)
                 .Field("Nome", state => !Modulo.aceite)
                 .Field("Cpf", state => !Modulo.aceite)
-                .Field("AcordoNegociacao", state => !Modulo.aceite)
                 .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
+                .Field("AcordoNegociacao", state => !Modulo.aceite)
+                .Field("AcordoNegociacao2", state => Modulo.aceite)
+                .Field("AcordoNegociacao3", state => Modulo.aceite)
                 .Message("Obrigado, negociação concluida com sucesso!", state => !Modulo.aceite)
                 .Field("ResumoFinalNegociacao", state => !Modulo.aceite)
                 .AddRemainingFields(null)

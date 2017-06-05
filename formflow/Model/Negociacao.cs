@@ -18,6 +18,7 @@ namespace formflow.Model
         public int parcelasPagasNegociacao { get; set; }
         public DateTime diaPagamento { get; set; }
 
+
         public Negociacao()
         {
            
