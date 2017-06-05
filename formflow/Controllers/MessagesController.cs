@@ -49,7 +49,8 @@ namespace formflow
             cliente.countOfertas(); // busca e retorna as ofertas a ofertar
            // cliente.validarOferta("offered"); // atribui o novo status da oferta e atualiza a proxima oferta
             
-            cliente.validarOferta("offer");//validar oferta no banco, offered = ofertado **** ofeerm = a ofertar  
+            cliente.validarOferta("offer");//validar oferta no banco, offered = ofertado **** ofeerm = a ofertar 
+             
             //----------------//----------------//
 
 
@@ -104,40 +105,47 @@ namespace formflow
 
                 if (Modulo.contador == 4 && activity.Text.Equals("2"))
                     {
-                            Modulo.aceite = true;
+                        Modulo.aceite1 = false;
+                Modulo.aceite2 = true;
+                Modulo.aceite3 = false;
+                        
+
                     }
                 
                 
                 if (Modulo.contador == 4 && activity.Text.Equals("1"))
                     {
-                            Modulo.aceite = false;
-                    }
+                Modulo.aceite = false;
+            }
                 //-----------------------------------------------------//
 
 
                 //Segunda proposta------------------------------------//
                 if (Modulo.contador == 5 && activity.Text.Equals("2"))
                     {
-                        Modulo.aceite = true;
-                    }
+
+                Modulo.aceite1 = false;
+                Modulo.aceite2 = false;
+                Modulo.aceite3 = true;
+            }
 
                 if (Modulo.contador == 5 && activity.Text.Equals("1"))
                     {
-                        Modulo.aceite = false;
-                    }
+                Modulo.aceite = false;
+            }
                 //-----------------------------------------------------//
 
 
                 //Terceira proposta------------------------------------//
                 if (Modulo.contador == 6 && activity.Text.Equals("2"))
                     {
-                        Modulo.aceite = true;
+                        Modulo.aceite3 = true;
                     }
 
                 if (Modulo.contador == 6 && activity.Text.Equals("1"))
                     {
-                        Modulo.aceite = false;
-                    }
+                Modulo.aceite = false;
+            }
                 //-----------------------------------------------------//
 
 
