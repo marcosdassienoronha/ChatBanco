@@ -47,17 +47,21 @@ namespace formflow
             //Este cliente encontra-se com todos seus dados [inclusive a oferta - cliente.oferta]
             cliente = conexao.ObterClientePorNome("Renato"); // busca um cliente
             cliente.countOfertas(); // busca e retorna as ofertas a ofertar
+           
            // cliente.validarOferta("offered"); // atribui o novo status da oferta e atualiza a proxima oferta
             
             cliente.validarOferta("offer");//validar oferta no banco, offered = ofertado **** ofeerm = a ofertar 
-             
+
             //----------------//----------------//
 
 
             //----------------//----------------//
             //Atribuindo o objeto atual a estes objeto da classe Modulo,
             //para poder utiliza-los na classe "Enquiry", mais especificamente, nos "Propts".
-            Modulo.oferta = cliente.oferta;
+            Modulo.cliente = cliente;
+            Modulo.oferta1 = (Oferta)cliente.ofertas[0];
+            Modulo.oferta2 = (Oferta)cliente.ofertas[1];
+            Modulo.oferta3 = (Oferta)cliente.ofertas[2];
             Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             //----------------//----------------//
 

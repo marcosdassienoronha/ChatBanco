@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace formflow.Model
 {
@@ -11,7 +8,9 @@ namespace formflow.Model
         
         public static int contador = 0;
         public static bool aceite;
-        public static Oferta oferta;
+        public static Oferta oferta1;
+        public static Oferta oferta2;
+        public static Oferta oferta3;
         public static Negociacao negociacao;
         public static Cliente cliente;
         public static bool aceite1;

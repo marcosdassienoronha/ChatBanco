@@ -1,12 +1,9 @@
-﻿using Microsoft.Bot.Builder.FormFlow;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
+
 
 namespace formflow.Model
 {
@@ -150,6 +147,8 @@ namespace formflow.Model
                 cliente.Fax = _leitor["fax"].ToString();
                 cliente.CPF = _leitor["cpf"].ToString();
                 cliente.Status = _leitor["status"].ToString();
+                cliente.Divida = float.Parse(_leitor["divida"].ToString());
+
             }
             conn.Close();
             return cliente;
@@ -186,7 +185,7 @@ namespace formflow.Model
                 conn.Close();
 
             }
-            catch (SqlException e)
+            catch (SqlException)
             {
             }
             //conn.Close();
@@ -220,8 +219,9 @@ namespace formflow.Model
             return null; 
 
         }
-        public Oferta ObterOferta(int _id)
+        public List<Oferta> ObterOferta(int _id)
         {
+            
             conn.Open();
             //string com o comando a ser executado 
             string sql = "SELECT * from bot.ofertas WHERE id_oferta=@Id";
@@ -235,11 +235,17 @@ namespace formflow.Model
 
             //instância do leitor 
             leitor = cmd.ExecuteReader();
-            formatOferta(leitor);
-            return oferta;
+            List<Oferta> ofertas = new List<Oferta>();
+            while (leitor.Read())
+            {
+                oferta = formatOferta(leitor);
+                ofertas.Add(oferta);
+            }
+            return ofertas;
         }
         private Oferta formatOferta(SqlDataReader _leitor)
         {
+            
             while (_leitor.Read())
             {
                 oferta.IdOferta = Convert.ToInt32(_leitor["id_oferta"].ToString());
