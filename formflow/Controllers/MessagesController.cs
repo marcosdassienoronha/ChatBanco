@@ -73,17 +73,17 @@ namespace formflow
             //----------------//----------------//
 
 
-            //----------------//----------------//
-            //Armazena as informações desta tentativa/efetivacao de contato com o cliente
-            if (Modulo.contador == 0) 
+                //----------------//----------------//
+                //Armazena as informações desta tentativa/efetivacao de contato com o cliente
+                if (Modulo.contador == 0) 
                 {
                              String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
                             String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
 
-               // var reply = activity.CreateReply($"" + pagamento);
-               // await connector.Conversations.ReplyToActivityAsync(reply);
-            }
-            //----------------//----------------//
+                // var reply = activity.CreateReply($"" + pagamento);
+                // await connector.Conversations.ReplyToActivityAsync(reply);
+                }
+                //----------------//----------------//
                 //Valida interesse na negociação------------------------------------//
                 if (Modulo.contador == 1 && activity.Text.Equals("2"))
                     {    
@@ -95,15 +95,25 @@ namespace formflow
                 //Valida o Nome------------------------------------//
                 if (Modulo.contador == 2)
                     {
-                            if (!activity.Text.Equals(cliente.Nome.Trim()))
-                                 Modulo.aceite = true;
+                if (!activity.Text.Equals(cliente.Nome.Trim()))
+                {
+                    Modulo.aceite = true;
+                    Modulo.aceite1 = true;
+                    Modulo.aceite2 = false;
+                    Modulo.aceite3 = false;
+
+                }
                     }
 
                 //Valida o CPF------------------------------------//
                 if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
                     {
                         Modulo.aceite = true;
-                    }
+                Modulo.aceite = true;
+                Modulo.aceite1 = true;
+                Modulo.aceite2 = false;
+                Modulo.aceite3 = false;
+            }
 
                 //Primeira proposta------------------------------------//
 
