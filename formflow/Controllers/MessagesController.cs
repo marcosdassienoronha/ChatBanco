@@ -75,14 +75,14 @@ namespace formflow
 
                 //----------------//----------------//
                 //Armazena as informações desta tentativa/efetivacao de contato com o cliente
-                if (Modulo.contador == 0) 
-                {
-                             String retorno = conexao.SalvarContatoRealizado(cliente.IdCliente);
-                            String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+                //if (Modulo.contador == 0) 
+                //{
+                              
+                           // String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
 
                 // var reply = activity.CreateReply($"" + pagamento);
                 // await connector.Conversations.ReplyToActivityAsync(reply);
-                }
+                //}
                 //----------------//----------------//
                 //Valida interesse na negociação------------------------------------//
                 if (Modulo.contador == 1 && activity.Text.Equals("2"))
@@ -129,7 +129,9 @@ namespace formflow
                 
                 if (Modulo.contador == 4 && activity.Text.Equals("1"))
                     {
+                Modulo.numeroNegociacao = 1;
                 Modulo.aceite = false;
+                Modulo.diaPagamentoAceite = true;
             }
                 //-----------------------------------------------------//
 
@@ -145,7 +147,9 @@ namespace formflow
 
                 if (Modulo.contador == 5 && activity.Text.Equals("1"))
                     {
+                Modulo.numeroNegociacao = 2;
                 Modulo.aceite = false;
+                Modulo.diaPagamentoAceite = true;
             }
                 //-----------------------------------------------------//
 
@@ -158,10 +162,26 @@ namespace formflow
 
                 if (Modulo.contador == 6 && activity.Text.Equals("1"))
                     {
+                Modulo.numeroNegociacao = 3;
                 Modulo.aceite = false;
-            }
-                //-----------------------------------------------------//
+                Modulo.diaPagamentoAceite = true;
+                }
+            //-----------------------------------------------------//
+             
 
+            //Dia Para Pagamento------------------------------------//
+            if (Modulo.contador == 5 || Modulo.contador == 6 || Modulo.contador == 7 )
+            {
+                Modulo.diaPagamento = int.Parse(activity.Text);
+                Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
+                conexao.SalvarContatoRealizado(cliente.IdCliente);
+                conexao.SalvarNegociacao(cliente.IdCliente, Modulo.numeroNegociacao);
+
+
+            }
+
+            
+            //-----------------------------------------------------//
 
             Modulo.contador += 1;
             

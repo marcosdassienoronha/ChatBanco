@@ -13,6 +13,7 @@ namespace formflow.Model
         private Cliente cliente;
         private Oferta oferta;
         private Negociacao negociacao;
+        private Contato contato;
         SqlDataReader leitor;
         SqlCommand cmd;
 
@@ -25,6 +26,7 @@ namespace formflow.Model
             cliente = new Cliente();
             oferta = new Oferta();
             negociacao = new Negociacao();
+            contato = new Contato();
             conn = new SqlConnection(@"Data Source=server1500fhcurso.database.windows.net;Initial Catalog=db1500fh;User ID=user1500fh;Password=15@@fh123;");
             //abro conexão 
            //conn.Open();
@@ -104,7 +106,7 @@ namespace formflow.Model
             SqlCommand cmd;
             conn.Open();
             string sql = "SELECT * from [bot].[negociacao] INNER JOIN [bot].[contato] ON [bot].[negociacao].[id_contato] = [bot].[contato].[id_contato]" +
-                "INNER JOIN [bot].[cliente] ON [bot].[cliente].[id_cliente]=1";
+                "INNER JOIN [bot].[cliente] ON [bot].[cliente].[id_cliente]=@Cliente";
             cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@Cliente", _cliente);
             leitor = cmd.ExecuteReader();
@@ -164,7 +166,7 @@ namespace formflow.Model
                 negociacao.inicioPagamento = Convert.ToDateTime(_leitor["inicio_pagamento"].ToString());
                 negociacao.qtdParcelasNegociacao = int.Parse(_leitor["qtd_parcelas_negociacao"].ToString());
                 negociacao.parcelasPagasNegociacao = int.Parse(_leitor["parcelas_pagas_negociacao"].ToString());
-                negociacao.diaPagamento = Convert.ToDateTime(_leitor["dia_pagamento"].ToString());
+                negociacao.diaPagamento = Convert.ToInt32(_leitor["dia_pagamento"].ToString());
 
             }
 
@@ -216,7 +218,71 @@ namespace formflow.Model
                 return "error" + e;
                     }
 
+            Modulo.idContato = ObterIdContato(_cliente);
+
+
             return null; 
+
+        }
+        public int ObterIdContato(int _cliente)
+        {
+            conn.Open();
+            string sql = "SELECT * from bot.contato WHERE id_cliente=@Cliente ";
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Cliente", _cliente);
+            leitor = cmd.ExecuteReader();
+            formatContato(leitor);
+            return contato.id_contato;
+        }
+        public String SalvarNegociacao(int _cliente, int numeroOferta)
+        {
+            DateTime today = DateTime.Now;
+
+
+            cmd.Connection = conn;
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = @"INSERT INTO [bot].[negociacao](id_contato, valor_negociacao, inicio_pagamento, qtd_parcelas_negociacao
+                                        ,parcelas_pagas_negociacao, dia_pagamento) 
+                            VALUES(@param2,@param3,@param4,@param5,@param6,@param7)";
+
+
+            cmd.Parameters.AddWithValue("@param2", Modulo.idContato);
+            if (numeroOferta == 1){
+                cmd.Parameters.AddWithValue("@param3", Modulo.cliente.Divida - ((Modulo.oferta1.desconto / 100) * Modulo.cliente.Divida)); //cade o valor negociacao?
+                cmd.Parameters.AddWithValue("@param4", "");
+                cmd.Parameters.AddWithValue("@param5", Modulo.oferta1.numParcelas);
+                cmd.Parameters.AddWithValue("@param6", "");
+                cmd.Parameters.AddWithValue("@param7", Modulo.diaPagamento);
+            }
+
+            if (numeroOferta == 2) {
+                cmd.Parameters.AddWithValue("@param3", Modulo.cliente.Divida - ((Modulo.oferta2.desconto / 100) * Modulo.cliente.Divida)); //cade o valor negociacao?
+                cmd.Parameters.AddWithValue("@param4", "");
+                cmd.Parameters.AddWithValue("@param5", Modulo.oferta2.numParcelas);
+                cmd.Parameters.AddWithValue("@param6", "");
+                cmd.Parameters.AddWithValue("@param7", Modulo.diaPagamento);
+            }
+            if (numeroOferta == 3){
+                cmd.Parameters.AddWithValue("@param3", Modulo.cliente.Divida - ((Modulo.oferta3.desconto / 100) * Modulo.cliente.Divida)); //cade o valor negociacao?
+                cmd.Parameters.AddWithValue("@param4", "");
+                cmd.Parameters.AddWithValue("@param5", Modulo.oferta3.numParcelas);
+                cmd.Parameters.AddWithValue("@param6", "");
+                cmd.Parameters.AddWithValue("@param7", Modulo.diaPagamento);
+            }
+
+            
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (SqlException e)
+            {
+                return "error" + e;
+            }
+
+            return null;
 
         }
         public List<Oferta> ObterOferta(int _id)
@@ -258,5 +324,23 @@ namespace formflow.Model
             conn.Close();
             return oferta;
         }
+
+        private Contato formatContato(SqlDataReader _leitor)
+        {
+
+            while (_leitor.Read())
+            {
+                contato.id_contato = Convert.ToInt32(_leitor["id_contato"].ToString());
+                contato.id_cliente = Convert.ToInt32(_leitor["id_cliente"].ToString());
+                contato.data_contato = DateTime.Parse(_leitor["data_contato"].ToString());
+                contato.canal = _leitor["canal"].ToString();
+                contato.tentativa_contato = _leitor["tentativa_contato"].ToString();
+            }
+
+            conn.Close();
+            return contato;
+        }
     }
+
+     
 }

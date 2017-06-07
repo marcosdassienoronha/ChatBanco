@@ -24,8 +24,7 @@ namespace formflow.FormFlow
         public float valorNegociacao = Modulo.negociacao.valorNegociacao;
         public int qtdParcelasNegociacao = Modulo.negociacao.qtdParcelasNegociacao;
         public int parcelasPagasNegociacao = Modulo.negociacao.parcelasPagasNegociacao;
-        public DateTime diaPagamento = Modulo.negociacao.diaPagamento;
-
+        public int diaPagamento = Modulo.diaPagamento;
         //----------------//----------------//
 
 
@@ -94,20 +93,25 @@ namespace formflow.FormFlow
         public YesOrNoOptionsNegociacao AcordoNegociacao3 { get; set; }
         //----------------------------------//
 
+        //----------------//----------------//
+        //Dia para pagamento
+        //
+        [Prompt("Qual é o melhor dia, a contar a partir deste mes, para realizar os pagamentos?")]
+        public String DiaPagamento { get; set; }
+        //----------------------------------//
 
-          
         //----------------//----------------//
         //Mostrar resumo final da negociação
         [Prompt("Resumo Final da Negociação: \r\rValor Divida: {ValorDivida}  \n\n\n\rValor Acordado/Negociado: {valorNegociacao}  \n\n\n\rQuantidade de Parcelas Ofertadas: {NumParcelas1}" +
             "\n\n\n\rQuantidade de Parcela(s) Acordada(s)/Negociada(s): {qtdParcelasNegociacao}  \n\n\n\rDia para Pagamento(s): {diaPagamento}")]
         public YesOrNoOptionsNegociacao ResumoFinalNegociacao { get; set; }
         //----------------------------------//
-    
- 
- 
-       
 
-        public static IForm<Enquiry> BuildForm()
+
+
+        
+
+            public static IForm<Enquiry> BuildForm()
         {
            
 
@@ -125,6 +129,7 @@ namespace formflow.FormFlow
                 .Field("AcordoNegociacao", state => !Modulo.aceite1)
                 .Field("AcordoNegociacao2", state => Modulo.aceite2)
                 .Field("AcordoNegociacao3", state => Modulo.aceite3)
+                .Field("DiaPagamento", state => Modulo.diaPagamentoAceite)
                 .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
                 .Message("Obrigado, negociação concluida com sucesso!", state => !Modulo.aceite)
                 .Field("ResumoFinalNegociacao", state => !Modulo.aceite)

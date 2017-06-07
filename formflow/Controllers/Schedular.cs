@@ -14,8 +14,8 @@ namespace formflow.Controllers
             DateTime today = DateTime.Today;
 
              //VERIFICA VALIDADE DA PARCELA E JA OFERECE BONIFICACAO CASO PAGUE EM DIA
-                if (Modulo.negociacao.diaPagamento.AddDays(7).Day == today.Day)
-                 return "Falta 1 Semana para o vencimento da parcela deste mes. Aproveite para pagar e ganhar até x% de desconto!";
+               // if (Modulo.negociacao.diaPagamento.AddDays(7).Day == today.Day)
+              //   return "Falta 1 Semana para o vencimento da parcela deste mes. Aproveite para pagar e ganhar até x% de desconto!";
             //Modulo.aceite = true/false
 
 

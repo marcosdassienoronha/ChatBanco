@@ -13,7 +13,7 @@ namespace formflow.Model
         public DateTime inicioPagamento { get; set; }
         public int qtdParcelasNegociacao { get; set; }
         public int parcelasPagasNegociacao { get; set; }
-        public DateTime diaPagamento { get; set; }
+        public int diaPagamento { get; set; }
 
 
         public Negociacao()
