@@ -24,7 +24,7 @@ namespace formflow.FormFlow
         public float valorNegociacao = Modulo.negociacao.valorNegociacao;
         public int qtdParcelasNegociacao = Modulo.negociacao.qtdParcelasNegociacao;
         public int parcelasPagasNegociacao = Modulo.negociacao.parcelasPagasNegociacao;
-        public int diaPagamento = Modulo.diaPagamento;
+        
         //----------------//----------------//
 
 
@@ -96,8 +96,8 @@ namespace formflow.FormFlow
         //----------------//----------------//
         //Dia para pagamento
         //
-        [Prompt("Qual é o melhor dia, a contar a partir deste mes, para realizar os pagamentos?")]
-        public String DiaPagamento { get; set; }
+        [Prompt("Qual  é o melhor dia, a contar a partir deste mes, para realizar os pagamentos?")]
+        public String diaPagamento { get; set; }
         //----------------------------------//
 
         //----------------//----------------//
@@ -129,7 +129,7 @@ namespace formflow.FormFlow
                 .Field("AcordoNegociacao", state => !Modulo.aceite1)
                 .Field("AcordoNegociacao2", state => Modulo.aceite2)
                 .Field("AcordoNegociacao3", state => Modulo.aceite3)
-                .Field("DiaPagamento", state => Modulo.diaPagamentoAceite)
+                .Field("diaPagamento", state => Modulo.diaPagamentoAceite)
                 .Message("Obrigado, desconsidere o contato.", state => Modulo.aceite)
                 .Message("Obrigado, negociação concluida com sucesso!", state => !Modulo.aceite)
                 .Field("ResumoFinalNegociacao", state => !Modulo.aceite)

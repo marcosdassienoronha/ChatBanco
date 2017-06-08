@@ -16,7 +16,7 @@ namespace ChatBot.Services
             {
                  
 
-                var url = $"https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/31b36aa3-c6b4-4c8b-96f8-f83169a70422?subscription-key=841f08a1c9d34fb19860fe212d52f5b0&timezoneOffset=0&verbose=true&q={message}";
+                var url = $"https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/31b36aa3-c6b4-4c8b-96f8-f83169a70422?subscription-key=19740a5c9d15412da00cccd1c2328554&timezoneOffset=0&verbose=true&q={message}";
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

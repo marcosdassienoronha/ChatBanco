@@ -47,9 +47,9 @@ namespace formflow
             //Este cliente encontra-se com todos seus dados [inclusive a oferta - cliente.oferta]
             cliente = conexao.ObterClientePorNome("Renato"); // busca um cliente
             cliente.countOfertas(); // busca e retorna as ofertas a ofertar
-           
-           // cliente.validarOferta("offered"); // atribui o novo status da oferta e atualiza a proxima oferta
-            
+
+            // cliente.validarOferta("offered"); // atribui o novo status da oferta e atualiza a proxima oferta
+
             cliente.validarOferta("offer");//validar oferta no banco, offered = ofertado **** ofeerm = a ofertar 
 
             //----------------//----------------//
@@ -65,7 +65,8 @@ namespace formflow
             Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             //----------------//----------------//
 
-
+            if(activity != null && activity.GetActivityType() == ActivityTypes.Message)
+            { 
             //----------------//----------------//
             //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
             //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
@@ -73,28 +74,28 @@ namespace formflow
             //----------------//----------------//
 
 
-                //----------------//----------------//
-                //Armazena as informações desta tentativa/efetivacao de contato com o cliente
-                //if (Modulo.contador == 0) 
-                //{
-                              
-                           // String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+            //----------------//----------------//
+            //Armazena as informações desta tentativa/efetivacao de contato com o cliente
+            //if (Modulo.contador == 0) 
+            //{
 
-                // var reply = activity.CreateReply($"" + pagamento);
-                // await connector.Conversations.ReplyToActivityAsync(reply);
-                //}
-                //----------------//----------------//
-                //Valida interesse na negociação------------------------------------//
-                if (Modulo.contador == 1 && activity.Text.Equals("2"))
-                    {    
-                            Modulo.aceite = true;
-                        
-                    }
+            // String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+
+            // var reply = activity.CreateReply($"" + pagamento);
+            // await connector.Conversations.ReplyToActivityAsync(reply);
+            //}
+            //----------------//----------------//
+            //Valida interesse na negociação------------------------------------//
+            if (Modulo.contador == 1 && activity.Text.Equals("2"))
+            {
+                Modulo.aceite = true;
+
+            }
 
 
-                //Valida o Nome------------------------------------//
-                if (Modulo.contador == 2)
-                    {
+            //Valida o Nome------------------------------------//
+            if (Modulo.contador == 2)
+            {
                 if (!activity.Text.Equals(cliente.Nome.Trim()))
                 {
                     Modulo.aceite = true;
@@ -103,93 +104,93 @@ namespace formflow
                     Modulo.aceite3 = false;
 
                 }
-                    }
+            }
 
-                //Valida o CPF------------------------------------//
-                if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
-                    {
-                        Modulo.aceite = true;
+            //Valida o CPF------------------------------------//
+            if (Modulo.contador == 3 && (activity.Text.Trim() != cliente.CPF.Trim()))
+            {
+                Modulo.aceite = true;
                 Modulo.aceite = true;
                 Modulo.aceite1 = true;
                 Modulo.aceite2 = false;
                 Modulo.aceite3 = false;
             }
 
-                //Primeira proposta------------------------------------//
+            //Primeira proposta------------------------------------//
 
-                if (Modulo.contador == 4 && activity.Text.Equals("2"))
-                    {
-                        Modulo.aceite1 = false;
+            if (Modulo.contador == 4 && activity.Text.Equals("2"))
+            {
+                Modulo.aceite1 = false;
                 Modulo.aceite2 = true;
                 Modulo.aceite3 = false;
-                        
 
-                    }
-                
-                
-                if (Modulo.contador == 4 && activity.Text.Equals("1"))
-                    {
+
+            }
+
+
+            if (Modulo.contador == 4 && activity.Text.Equals("1"))
+            {
                 Modulo.numeroNegociacao = 1;
                 Modulo.aceite = false;
                 Modulo.diaPagamentoAceite = true;
             }
-                //-----------------------------------------------------//
+            //-----------------------------------------------------//
 
 
-                //Segunda proposta------------------------------------//
-                if (Modulo.contador == 5 && activity.Text.Equals("2"))
-                    {
+            //Segunda proposta------------------------------------//
+            if (Modulo.contador == 5 && activity.Text.Equals("2"))
+            {
 
                 Modulo.aceite1 = false;
                 Modulo.aceite2 = false;
                 Modulo.aceite3 = true;
             }
 
-                if (Modulo.contador == 5 && activity.Text.Equals("1"))
-                    {
+            if (Modulo.contador == 5 && activity.Text.Equals("1"))
+            {
                 Modulo.numeroNegociacao = 2;
                 Modulo.aceite = false;
                 Modulo.diaPagamentoAceite = true;
             }
-                //-----------------------------------------------------//
+            //-----------------------------------------------------//
 
 
-                //Terceira proposta------------------------------------//
-                if (Modulo.contador == 6 && activity.Text.Equals("2"))
-                    {
-                        Modulo.aceite3 = true;
-                    }
+            //Terceira proposta------------------------------------//
+            if (Modulo.contador == 6 && activity.Text.Equals("2"))
+            {
+                Modulo.aceite3 = true;
+            }
 
-                if (Modulo.contador == 6 && activity.Text.Equals("1"))
-                    {
+            if (Modulo.contador == 6 && activity.Text.Equals("1"))
+            {
                 Modulo.numeroNegociacao = 3;
                 Modulo.aceite = false;
                 Modulo.diaPagamentoAceite = true;
-                }
+            }
             //-----------------------------------------------------//
-             
+
 
             //Dia Para Pagamento------------------------------------//
-            if (Modulo.contador == 5 || Modulo.contador == 6 || Modulo.contador == 7 )
+            if (Modulo.contador == 5 || Modulo.contador == 6 && !activity.Text.Equals("1") || Modulo.contador == 7 && !activity.Text.Equals("1"))
             {
-                Modulo.diaPagamento = int.Parse(activity.Text);
-                Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
+                Modulo.diaPagamento = int.Parse(response.entities[0].entity.ToString());
+                //Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
                 conexao.SalvarContatoRealizado(cliente.IdCliente);
                 conexao.SalvarNegociacao(cliente.IdCliente, Modulo.numeroNegociacao);
 
 
             }
 
-            
+
             //-----------------------------------------------------//
 
             Modulo.contador += 1;
-            
+
             await Conversation.SendAsync(activity, () =>
             {
                 return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
             });
-
+        }
                 var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
          
                     return responseHttp;
