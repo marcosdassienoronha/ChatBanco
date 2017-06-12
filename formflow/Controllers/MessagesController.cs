@@ -16,12 +16,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-
-
+using Microsoft.Bot.Connector;
+using System.Linq;
+using System.Threading;
 
 namespace formflow
 {
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
 
@@ -29,6 +30,8 @@ namespace formflow
 
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
+             
+            
             string sim = string.Empty;
             string nao = string.Empty;
             var intent = new Intent();
@@ -65,28 +68,44 @@ namespace formflow
             Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             //----------------//----------------//
 
-            if(activity != null && activity.GetActivityType() == ActivityTypes.Message)
-            { 
-            //----------------//----------------//
-            //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
-            //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
-            //await connector.Conversations.ReplyToActivityAsync(reply);
-            //----------------//----------------//
+          
+               
+                 
+                   
+
+                    
+               
+                
+            
+
+            if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
+            {
+                string msg = activity.Text.ToLower().Trim();
+                if (msg == "start over" || msg == "exit" || msg.Equals("quit") || msg == "done" || msg == "start again" || msg == "restart" || msg == "leave" || msg == "reset")
+                {
+                    //This is where the conversation gets reset!
+                    activity.GetStateClient().BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
+                }
+                //----------------//----------------//
+                //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
+                //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
+                //await connector.Conversations.ReplyToActivityAsync(reply);
+                //----------------//----------------//
 
 
-            //----------------//----------------//
-            //Armazena as informações desta tentativa/efetivacao de contato com o cliente
-            //if (Modulo.contador == 0) 
-            //{
+                //----------------//----------------//
+                //Armazena as informações desta tentativa/efetivacao de contato com o cliente
+                //if (Modulo.contador == 0) 
+                //{
 
-            // String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
+                // String pagamento = Schedular.VerificarVencimentoParcela(cliente.IdCliente);
 
-            // var reply = activity.CreateReply($"" + pagamento);
-            // await connector.Conversations.ReplyToActivityAsync(reply);
-            //}
-            //----------------//----------------//
-            //Valida interesse na negociação------------------------------------//
-            if (Modulo.contador == 1 && activity.Text.Equals("2"))
+                // var reply = activity.CreateReply($"" + pagamento);
+                // await connector.Conversations.ReplyToActivityAsync(reply);
+                //}
+                //----------------//----------------//
+                //Valida interesse na negociação------------------------------------//
+                if (Modulo.contador == 1 && activity.Text.Equals("2") || Modulo.contador == 1 && activity.Text.Equals("Nao"))
             {
                 Modulo.aceite = true;
 
@@ -118,7 +137,7 @@ namespace formflow
 
             //Primeira proposta------------------------------------//
 
-            if (Modulo.contador == 4 && activity.Text.Equals("2"))
+            if (Modulo.contador == 4 && activity.Text.Equals("2") || Modulo.contador == 4 && activity.Text.Equals("Nao"))
             {
                 Modulo.aceite1 = false;
                 Modulo.aceite2 = true;
@@ -128,7 +147,7 @@ namespace formflow
             }
 
 
-            if (Modulo.contador == 4 && activity.Text.Equals("1"))
+            if (Modulo.contador == 4 && activity.Text.Equals("1") || Modulo.contador == 4 && activity.Text.Equals("Sim"))
             {
                 Modulo.numeroNegociacao = 1;
                 Modulo.aceite = false;
@@ -138,7 +157,7 @@ namespace formflow
 
 
             //Segunda proposta------------------------------------//
-            if (Modulo.contador == 5 && activity.Text.Equals("2"))
+            if (Modulo.contador == 5 && activity.Text.Equals("2") || Modulo.contador == 5 && activity.Text.Equals("Nao"))
             {
 
                 Modulo.aceite1 = false;
@@ -146,7 +165,7 @@ namespace formflow
                 Modulo.aceite3 = true;
             }
 
-            if (Modulo.contador == 5 && activity.Text.Equals("1"))
+            if (Modulo.contador == 5 && activity.Text.Equals("1") || Modulo.contador == 5 && activity.Text.Equals("Sim"))
             {
                 Modulo.numeroNegociacao = 2;
                 Modulo.aceite = false;
@@ -156,12 +175,12 @@ namespace formflow
 
 
             //Terceira proposta------------------------------------//
-            if (Modulo.contador == 6 && activity.Text.Equals("2"))
+            if (Modulo.contador == 6 && activity.Text.Equals("2") || Modulo.contador == 6 && activity.Text.Equals("Nao"))
             {
                 Modulo.aceite3 = true;
             }
 
-            if (Modulo.contador == 6 && activity.Text.Equals("1"))
+            if (Modulo.contador == 6 && activity.Text.Equals("1") || Modulo.contador == 6 && activity.Text.Equals("Sim"))
             {
                 Modulo.numeroNegociacao = 3;
                 Modulo.aceite = false;
@@ -171,15 +190,15 @@ namespace formflow
 
 
             //Dia Para Pagamento------------------------------------//
-            if (Modulo.contador == 5 || Modulo.contador == 6 && !activity.Text.Equals("1") || Modulo.contador == 7 && !activity.Text.Equals("1"))
+            if (Modulo.contador == 5 || Modulo.contador == 6 && !activity.Text.Equals("1") || Modulo.contador == 7 && !activity.Text.Equals("1") || Modulo.contador == 6 && !activity.Text.Equals("Nao") || Modulo.contador == 7 && !activity.Text.Equals("Nao"))
             {
                 Modulo.diaPagamento = int.Parse(response.entities[0].entity.ToString());
                 //Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
                 conexao.SalvarContatoRealizado(cliente.IdCliente);
                 conexao.SalvarNegociacao(cliente.IdCliente, Modulo.numeroNegociacao);
+                    
 
-
-            }
+                }
 
 
             //-----------------------------------------------------//
@@ -190,6 +209,7 @@ namespace formflow
             {
                 return Chain.From(() => FormDialog.FromForm(Enquiry.BuildForm));
             });
+                 
         }
                 var responseHttp = Request.CreateResponse(HttpStatusCode.OK);
          
