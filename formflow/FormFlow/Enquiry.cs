@@ -102,7 +102,7 @@ namespace formflow.FormFlow
 
         //----------------//----------------//
         //Mostrar resumo final da negociação
-        [Prompt("Resumo Final da Negociação: \r\rValor Divida: {ValorDivida}  \n\n\n\rValor Acordado/Negociado: {valorNegociacao}  \n\n\n\rQuantidade de Parcelas Ofertadas: {NumParcelas1}" +
+        [Prompt("Resumo Final da Negociação: \r\rValor Divida: {ValorDivida}  \n\n\n\rValor Acordado/Negociado: {valorNegociacao}  " +
             "\n\n\n\rQuantidade de Parcela(s) Acordada(s)/Negociada(s): {qtdParcelasNegociacao}  \n\n\n\rDia para Pagamento(s): {diaPagamento}")]
         public YesOrNoOptionsNegociacao ResumoFinalNegociacao { get; set; }
         //----------------------------------//

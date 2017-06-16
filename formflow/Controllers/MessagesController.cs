@@ -68,24 +68,34 @@ namespace formflow
             Modulo.negociacao = conexao.ObterNegociacao(cliente.IdCliente);
             //----------------//----------------//
 
-          
-               
-                 
-                   
 
-                    
-               
-                
-            
+            string msg = activity.Text.ToLower().Trim();
+            if (msg == "start over" || msg == "exit" || msg == "done" || msg == "start again" || msg == "restart" || msg == "leave" || msg == "reset")
+            {
+                //This is where the conversation gets reset!
+                activity.GetStateClient().BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
+                Modulo.contador = 0;
+
+            }
+            if ( msg.Equals("tchau") )
+            {
+                //This is where the conversation gets reset!
+                activity.GetStateClient().BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
+                Modulo.contador = 0;
+                Modulo.aceite = false;
+
+            }
+
+
+
+
+
+
+
 
             if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
             {
-                string msg = activity.Text.ToLower().Trim();
-                if (msg == "start over" || msg == "exit" || msg.Equals("quit") || msg == "done" || msg == "start again" || msg == "restart" || msg == "leave" || msg == "reset")
-                {
-                    //This is where the conversation gets reset!
-                    activity.GetStateClient().BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
-                }
+               
                 //----------------//----------------//
                 //CUIDADO COM O DEBUG POIS PODE ALTERAR O RESULTADOS DAS VALIDAÇÕES, JÁ QUE ELE ALTERAR A ORDEM DAS PERGUNTAS
                 //var reply = activity.CreateReply($""+cliente.Nome+cliente.IdCliente+" - "+cliente.oferta.IdOferta+" "+ cliente.oferta.ValorDivida);
@@ -107,15 +117,16 @@ namespace formflow
                 //Valida interesse na negociação------------------------------------//
                 if (Modulo.contador == 1 && activity.Text.Equals("2") || Modulo.contador == 1 && activity.Text.Equals("Nao"))
             {
-                Modulo.aceite = true;
+                    Modulo.aceite = false;
+                   
 
-            }
+                }
 
 
             //Valida o Nome------------------------------------//
             if (Modulo.contador == 2)
             {
-                if (!activity.Text.Equals(cliente.Nome.Trim()))
+                if (!activity.Text.Trim().Equals(cliente.Nome.Trim()))
                 {
                     Modulo.aceite = true;
                     Modulo.aceite1 = true;
@@ -137,7 +148,7 @@ namespace formflow
 
             //Primeira proposta------------------------------------//
 
-            if (Modulo.contador == 4 && activity.Text.Equals("2") || Modulo.contador == 4 && activity.Text.Equals("Nao"))
+            if (Modulo.contador == 4 && activity.Text.Trim().Equals("2") || Modulo.contador == 4 && activity.Text.Trim().Equals("Nao"))
             {
                 Modulo.aceite1 = false;
                 Modulo.aceite2 = true;
@@ -147,7 +158,7 @@ namespace formflow
             }
 
 
-            if (Modulo.contador == 4 && activity.Text.Equals("1") || Modulo.contador == 4 && activity.Text.Equals("Sim"))
+            if (Modulo.contador == 4 && activity.Text.Trim().Equals("1") || Modulo.contador == 4 && activity.Text.Trim().Equals("Sim"))
             {
                 Modulo.numeroNegociacao = 1;
                 Modulo.aceite = false;
@@ -157,17 +168,18 @@ namespace formflow
 
 
             //Segunda proposta------------------------------------//
-            if (Modulo.contador == 5 && activity.Text.Equals("2") || Modulo.contador == 5 && activity.Text.Equals("Nao"))
+            if (Modulo.contador == 5 && activity.Text.Trim().Equals("2") || Modulo.contador == 5 && activity.Text.Equals("Nao") || Modulo.contador == 5 && activity.Text.Equals("No"))
             {
-
-                Modulo.aceite1 = false;
+                    
+                    Modulo.aceite1 = false;
                 Modulo.aceite2 = false;
                 Modulo.aceite3 = true;
             }
 
-            if (Modulo.contador == 5 && activity.Text.Equals("1") || Modulo.contador == 5 && activity.Text.Equals("Sim"))
+            if (Modulo.contador == 5 && activity.Text.Trim().Equals("1") || Modulo.contador == 5 && activity.Text.Trim() == "Sim" || Modulo.contador == 5 && activity.Text.Equals("Yes"))
             {
-                Modulo.numeroNegociacao = 2;
+                  
+                    Modulo.numeroNegociacao = 2;
                 Modulo.aceite = false;
                 Modulo.diaPagamentoAceite = true;
             }
